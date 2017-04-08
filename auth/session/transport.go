@@ -18,7 +18,7 @@ func ToHTTPContext(store sessions.Store, name string) http.RequestFunc {
 
 func FromHTTPContext() http.ServerResponseFunc {
 	return func(ctx context.Context, w stdhttp.ResponseWriter) context.Context {
-		session := ctx.Value("session").(session)
+		session := ctx.Value("session").(*session)
 		if session.written {
 			session.s.Save(session.r, w)
 			session.written = false
