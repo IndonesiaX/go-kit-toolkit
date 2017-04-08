@@ -8,9 +8,9 @@ import (
 	"github.com/gorilla/sessions"
 )
 
-func ToHTTPContext(store *sessions.Store, name string) http.RequestFunc {
+func ToHTTPContext(store sessions.Store, name string) http.RequestFunc {
 	return func(ctx context.Context, r *stdhttp.Request) context.Context {
-		s, _ := (*store).Get(r, name)
+		s, _ := store.Get(r, name)
 		session := &session{r: r, s: s}
 		return context.WithValue(ctx, "session", session)
 	}
