@@ -28,13 +28,15 @@ func NewSession(r *http.Request, s *sessions.Session) Session {
 }
 
 func (s *session) Get(key string) interface{} {
-	return nil
+	return s.s.Values[key]
 }
 
 func (s *session) Set(key string, value interface{}) {
+	s.s.Values[key] = value
 }
 
 func (s *session) Delete(key string) {
+	delete(s.s.Values, key)
 	s.written = true
 }
 
@@ -43,4 +45,8 @@ func (s *session) Save() {
 }
 
 func (s *session) Clear() {
+	for key := range s.s.Values {
+		delete(s.s.Values, key)
+	}
+	s.written = true
 }
